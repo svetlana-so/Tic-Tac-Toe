@@ -1,0 +1,39 @@
+body {
+  background-color: rgb(36, 36, 36);
+  color: rgb(218, 218, 218);
+  font-family: Chalkduster;
+}
+.game {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+.cell {
+  width: 85px;
+  height: 85px;
+  border: 2px solid;
+  cursor: pointer;
+  font-size: 60px;
+  line-height: 85px;
+  box-shadow: 10px 5px 35px 15px #50515179;
+}
+
+.cellscontainer {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  text-align: center;
+  gap: 0;
+}
+
+button {
+  border-radius: 15px;
+  height: 35px;
+  width: 80px;
+  border: 1px solid rgb(218, 218, 218);
+  background-color: rgb(43, 42, 42);
+  color: rgb(218, 218, 218);
+  cursor: pointer;
+  font-family: FreeMono;
+}
