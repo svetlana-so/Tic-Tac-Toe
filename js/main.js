@@ -1,22 +1,11 @@
-const jsConfetti = new JSConfetti();
+import { checkForWin } from "./game.js";
 const canvas = document.querySelector("#confetti");
 const twoPlayers = document.getElementById("two-players");
 const onePlayer = document.getElementById("one-player");
 const cells = document.querySelectorAll(".cell");
 const resetButton = document.getElementById("resetBtn");
 const statusText = document.getElementById("statusText");
-const winningCombinations = [
-  [0, 1, 2, 3],
-  [4, 5, 6, 7],
-  [8, 9, 10, 11],
-  [12, 13, 14, 15],
-  [0, 4, 8, 12],
-  [1, 5, 9, 13],
-  [2, 6, 10, 14],
-  [3, 7, 11, 15],
-  [0, 5, 10, 15],
-  [3, 6, 9, 12],
-];
+
 let currentPlayer = "X";
 const board = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 let gameRunning = false;
@@ -73,7 +62,8 @@ function makeComputerMove() {
       emptyCells[Math.floor(Math.random() * emptyCells.length)];
     board[randomIndex] = "O";
     cells[randomIndex].textContent = "O";
-    if (checkForWin()) {
+    if (checkForWin(board, currentPlayer)) {
+      gameRunning = false;
       return; //stop further move
     }
     currentPlayer = "X";
@@ -91,7 +81,8 @@ function cellClick(event) {
   if (board[cellIndex] === "") {
     board[cellIndex] = currentPlayer;
     clickedCell.textContent = currentPlayer;
-    if (checkForWin()) {
+    if (checkForWin(board, currentPlayer)) {
+      gameRunning = false;
       return; //stop further move
     }
     //this line toggles the current playes between x and o
@@ -101,36 +92,4 @@ function cellClick(event) {
       setTimeout(makeComputerMove, 500);
     }
   }
-}
-
-function checkForWin() {
-  let roundWon = false;
-
-  for (let i = 0; i < winningCombinations.length; i++) {
-    const condition = winningCombinations[i];
-    const cellA = board[condition[0]];
-    const cellB = board[condition[1]];
-    const cellC = board[condition[2]];
-    const cellD = board[condition[3]];
-
-    if (cellA === "" || cellB === "" || cellC === "" || cellD === "") {
-      continue;
-    }
-    if (cellA === cellB && cellB === cellC && cellC === cellD) {
-      roundWon = true;
-      break;
-    }
-  }
-  if (!roundWon && !board.includes("")) {
-    statusText.textContent = "It's a draw! Play again?";
-    gameRunning = false;
-    return true;
-  }
-  if (roundWon) {
-    jsConfetti.addConfetti();
-    statusText.textContent = `${currentPlayer} wins! Play again?`;
-    gameRunning = false;
-    return true;
-  }
-  return false;
 }
